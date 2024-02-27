@@ -39,4 +39,9 @@ const updateUI = (state: State) => {
     .join("");
 };
 
-export default updateUI;
+const getSearchQuery = (): string => {
+  const searchInput = document.getElementById("search") as HTMLInputElement;
+  return searchInput.value;
+};
+
+export { updateUI, getSearchQuery };

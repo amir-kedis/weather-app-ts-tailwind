@@ -10,31 +10,42 @@ const fetchWeather = async (city: string) => {
   return data;
 };
 
-const getWeather = async (city: string) => {
+type weatherInfo = {
+  city: string;
+  country: string;
+  curWeather: {
+    temp: number;
+    condition: string;
+    icon: string;
+  };
+  forecast: {
+    date: string;
+    maxTemp: number;
+    minTemp: number;
+    condition: string;
+    icon: string;
+  }[];
+};
+
+const getWeather = async (city: string): Promise<weatherInfo> => {
   const weather = await fetchWeather(city);
   return {
-    city: weather.location.name as string,
-    country: weather.location.country as string,
+    city: weather.location.name,
+    country: weather.location.country,
     curWeather: {
-      temp: weather.current.temp_c as number,
-      condition: weather.current.condition.text as string,
-      icon: weather.current.condition.icon as string,
+      temp: weather.current.temp_c,
+      condition: weather.current.condition.text,
+      icon: weather.current.condition.icon,
     },
     forecast: weather.forecast.forecastday.map((day: any) => {
       return {
-        date: day.date as string,
-        maxTemp: day.day.maxtemp_c as number,
-        minTemp: day.day.mintemp_c as number,
-        condition: day.day.condition.text as string,
-        icon: day.day.condition.icon as string,
+        date: day.date,
+        maxTemp: day.day.maxtemp_c,
+        minTemp: day.day.mintemp_c,
+        condition: day.day.condition.text,
+        icon: day.day.condition.icon,
       };
-    }) as {
-      date: string;
-      maxTemp: number;
-      minTemp: number;
-      condition: string;
-      icon: string;
-    }[],
+    }),
   };
 };
 
@@ -43,3 +54,4 @@ const getQuote = async () => {
 };
 
 export { getWeather, getQuote };
+export type { weatherInfo, quote };
